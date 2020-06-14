@@ -4,7 +4,7 @@ import os
 import time
 import sys
 import requests
-sys.path.append("../")
+#sys.path.append("../")
 from config import Config
 
 

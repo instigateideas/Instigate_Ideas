@@ -24,7 +24,6 @@ class Run_Reddit_Comment_Extraction(object):
             list_subreddits_data = remianing_list
         start_time = time.time()
         cost = 0
-
         for subreddit in list_subreddits_data:
             start_time, cost = extract_.start_extraction(subreddit=subreddit, start_date=self.st_dt, end_date=self.end_dt, \
                 base_path=self.sav_path, start_time=start_time, total_cost=cost)

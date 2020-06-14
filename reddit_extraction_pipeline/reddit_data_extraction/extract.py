@@ -2,7 +2,7 @@ import requests
 import os
 import time
 import json
-from base import Base
+from reddit_data_extraction.base import Base
 from config import Config
 from ast import literal_eval
 from bs4 import BeautifulSoup
@@ -10,13 +10,18 @@ from bs4 import BeautifulSoup
 
 class Extract(object):
     """docstring fos Extract"""
-    def __init__(self, extract_source):
+    def __init__(self, save_path, extract_source):
         self.default_config = Config()
+        self.base_path = save_path
+        self.src_data = extract_source
         self.delta = self.default_config.epochs_delta
-        self.base_ = Base()
+        self.subreddit_path = self.default_config.subreddit_path
+        self.base_ = Base(subreddit_json_path=self.subreddit_path)
+        self.start_date = self.default_config.start_date
+        self.end_date = self.default_config.end_date
         self.resume_file = self.default_config.resume_file
         self.host_addr = self.default_config.host_address
-        self.src_data = extract_source
+        
         self.rate_limit_per_min = 100
 
     def get_url(self, subreddit, after, before):
@@ -111,7 +116,7 @@ class Extract(object):
         for num_, epoch in enumerate(epochs):
             url = self.get_url(subreddit=subreddit, after=epoch[0], before=epoch[1])
             print(url)
-            data = self.alb_extract(url=url)
+            data = self.make_request(uri=url)
             call_cost = 1
             totaldata = data["metadata"]["total_results"]
             file_name = f"{subreddit}_time_{epoch[0]}_{epoch[1]}_data_{totaldata}.json"
@@ -130,17 +135,25 @@ class Extract(object):
         return start_time, total_cost
             
 
-    def start_extraction(self, subreddit, start_date, end_date, base_path, start_time, total_cost):
-        ext_start_dt, ext_start_mn, ext_start_yr = self.get_dates_frmt(start_date)
-        ext_end_dt, ext_end_mn, ext_end_yr = self.get_dates_frmt(end_date)
+    def extract_subreddit(self, subreddit, start_time, total_cost):
+        ext_start_dt, ext_start_mn, ext_start_yr = self.get_dates_frmt(self.start_date)
+        ext_end_dt, ext_end_mn, ext_end_yr = self.get_dates_frmt(self.end_date)
         epochs = self.extract_prep_epochs(ext_start_mn=ext_start_mn, ext_start_yr=ext_start_yr, \
             ext_start_dt=ext_start_dt,ext_end_mn=ext_end_mn, ext_end_yr=ext_end_yr, \
             ext_end_dt=ext_end_dt)
         start_time, total_cost = self.extract_reddit_comments(subreddit=subreddit, epochs=epochs, \
-            f_path=base_path, start_time=start_time, total_cost=total_cost)
+            f_path=self.base_path, start_time=start_time, total_cost=total_cost)
         self.base_.write_resume_file(file_path=self.resume_file, subreddit_completed=subreddit)
 
         return start_time, total_cost
+
+    def start_extraction(self, subreddits):
+        start_time = time.time()
+        cost = 0
+        for subreddit in subreddits:
+            start_time, cost = self.extract_subreddit(subreddit=subreddit, start_time=start_time, \
+                total_cost=cost)
+            print("Successfully extracted the data of subreddit {}".format(subreddit))
 
 
     def start_extraction_task(self, subreddits, start_date, end_date, base_path):
