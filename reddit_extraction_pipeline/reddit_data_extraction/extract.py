@@ -21,8 +21,7 @@ class Extract(object):
         self.end_date = self.default_config.end_date
         self.resume_file = self.default_config.resume_file
         self.host_addr = self.default_config.host_address
-        
-        self.rate_limit_per_min = 100
+        self.rate_limit_per_min = self.default_config.x_rate_limit_per_min_pushapi
 
     def get_url(self, subreddit, after, before):
         if self.src_data == "submission":
@@ -89,11 +88,13 @@ class Extract(object):
             assert response.status_code == 200
             return json.loads(response.content)
         current_tries = 1
+        call_cost = 0
         while current_tries < max_retries:
             try:
                 time.sleep(1)
                 response = fire_away(uri)
-                return response
+                call_cost+= 1
+                return response, call_cost
             except:
                 time.sleep(1)
                 current_tries += 1
@@ -116,21 +117,20 @@ class Extract(object):
         for num_, epoch in enumerate(epochs):
             url = self.get_url(subreddit=subreddit, after=epoch[0], before=epoch[1])
             print(url)
-            data = self.make_request(uri=url)
-            call_cost = 1
+            data, call_cost = self.make_request(uri=url)
             totaldata = data["metadata"]["total_results"]
             file_name = f"{subreddit}_time_{epoch[0]}_{epoch[1]}_data_{totaldata}.json"
             f_path_ = f"{f_path}/{self.base_.path_epochs_to_timestamp(ts=epoch[0])}"
-            if not os.path.exists(f_path_):
-                os.makedirs(f_path_)
+            self.base_.create_save_path(save_path=f_path_)
             flag = self.base_.condition_check(limit=500, count=totaldata, data=data, name=file_name, path=f_path_)
             if flag == False:
-                total_cost= total_cost+call_cost
+                total_cost = total_cost+call_cost
                 epochs_ = self.base_.epochs_splitter(start_epoch=epoch[0], end_epoch=epoch[1])
                 self.extract_reddit_comments(subreddit=subreddit, epochs=epochs_, f_path=f_path, start_time=start_time, total_cost=total_cost)
                 total_cost, start_time = self.sleeper_function(start_time=start_time, cost=total_cost)
-            total_cost = total_cost+call_cost
-            total_cost, start_time = self.sleeper_function(start_time=start_time, cost=total_cost)
+            else:
+                total_cost = total_cost+call_cost
+                total_cost, start_time = self.sleeper_function(start_time=start_time, cost=total_cost)
 
         return start_time, total_cost
             
