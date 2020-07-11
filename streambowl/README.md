@@ -38,6 +38,9 @@ The following are the atomic tasks that are implemented in this vpn based seleni
  # Start the container with binding volume
  - docker container run --name vpn_scrapper -d -p 5000:5555 -v "$(pwd)"/app:/home/seluser/app scrapper:latest
 
+ # Start the container for mongo-db
+ - docker container run --name mongodb -d -p 27017:27017 -v /home/arunachalam/Documents/output_streambowl/db_data:/data/db mongo:4.2.8-bionic
+
  ## Usage - running 
  - sudo docker swarm init --advertise-addr <private ip>
  - sudo docker service create  --name service_name --replicas N -p 5555:5555 image_name
