@@ -35,13 +35,25 @@ The following are the atomic tasks that are implemented in this vpn based seleni
  ## Test the server sample curl request
  - curl http://localhost:5000/get_html_content -d '{"/askubuntu.com/questions/529563/shellshock-bash-already-updated"}'
 
- # Start the container with binding volume
- - docker container run --name vpn_scrapper -d -p 5000:5555 -v "$(pwd)"/app:/home/seluser/app scrapper:latest
-
- # Start the container for mongo-db
- - docker container run --name mongodb -d -p 27017:27017 -v /home/arunachalam/Documents/output_streambowl/db_data:/data/db mongo:4.2.8-bionic
-
  ## Usage - running 
  - sudo docker swarm init --advertise-addr <private ip>
  - sudo docker service create  --name service_name --replicas N -p 5555:5555 image_name
+
+ ## Build the VPN app
+ ''' bash
+ docker build -f vpn_Dockerfile -t vpn_scrapper .
+'''
+
+  # Start the container with binding volume
+''' bash
+ docker container run --name vpn_scrapper -d -p 5000:5555 -v /home/arunachalam/Documents/Instigate_Ideas/streambowl/backend/vpn_app:/home/seluser/vpn_app vpn_scrapper:latest
+'''
+
+ # Start the container for mongo-db
+ '''bash
+ docker container run --name mongodb -d -p 27017:27017 -v /home/arunachalam/Documents/output_streambowl/db_data:/data/db mongo:4.2.8-bionic
+'''
+
+ ## License
+[MIT](https://choosealicense.com/licenses/mit/)
  
