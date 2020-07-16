@@ -75,7 +75,7 @@ def filter_based_on_quality_pref(collection_name, prefered_quality_list):
 
 def get_currently_scraped_data_from_db(collection_name, epoch):
 	db = myclient[database_name]
-	docs = db[collection_name].find({"current_timestamp": {"$lt": epoch}})
+	docs = db[collection_name].find({"current_timestamp": {"$gt": epoch}})
 	print(docs)
 	movies = []
 	for doc in docs:

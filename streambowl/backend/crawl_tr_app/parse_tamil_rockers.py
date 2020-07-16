@@ -20,9 +20,9 @@ prefered_language = "Tamil"
 
 video_codec_index = {"Bluray":1, "HD HEVC": 1, "HD AVC": 1, "HD": 1, "BD": 1, "BR": 1, \
 "BDRip": 2, "HDRip": 2, "BRrip": 2, "HDTV": 2, "HDTVRip": 2, "DIVx": 3, "DVD":3, "DVDRip": 3, \
-"TVRip": 3, "WEB": 3}
+"TVRip": 3, "WEB": 3, "": 0}
 
-video_quality_index = {"1080p": 1, "720p": 2, "480p": 3, "360p": 4, "240p": 5}
+video_quality_index = {"1080p": 1, "720p": 2, "480p": 3, "360p": 4, "240p": 5, "": 0}
 
 movie_quality_indicator = {"11": "Awesome Quality", "10": "Awesome Quality", \
 							"12": "Best Quality", "01": "Best Quality", "21": "Best Quality", \
@@ -136,16 +136,33 @@ def get_torrent_info(torrent_objs, mag_links):
 
 	return torrent_info
 
-def index_mapper(datum, key_name, value):
-	if key_name == "video_codec_index":
-		data = video_codec_index
+def crt_the_pixel_index(pixel_value):
+	pixel_value = int(pixel_value[0:-1])
+	if (pixel_value < 1080 and pixel_value > 720):
+		return 2
+	elif (pixel_value < 720 and pixel_value > 480):
+		return 3
+	elif (pixel_value < 480 and pixel_value > 360):
+		return 4
+	elif (pixel_value < 360):
+		return 5
 	else:
-		data = video_quality_index
-	# Handling the error if no data is available for the selected key name
+		return 0
+
+def index_mapper_video_codec(datum, value):
+	data = video_codec_index
 	try:
-		datum[key_name] = data[value[0]]
+		datum["video_codec_index"] = data[value]
 	except IndexError:
-		datum[key_name] = 0
+		datum["video_codec_index"] = 0
+
+	return datum
+
+def index_mapper_pixel_quality(datum, value):
+	try:
+		datum["pixel_quality_index"] = video_quality_index[value]
+	except KeyError:
+		datum["pixel_quality_index"] = crt_the_pixel_index(pixel_value=value)
 
 	return datum
 
@@ -162,53 +179,91 @@ def out_of_list(element):
 	except IndexError:
 		return ""
 
+def validate_flag_elements(soup, tag, element, type):
+	flag = False
+	if type == "all":
+		if soup.find_all(tag, element):
+			flag = True
+	elif type == "first":
+		if soup.find(tag, element):
+			flag = True
+	else:
+		pass
+
+	return flag
+
+def validate_important_fields(soup, datum):
+	# important movie title, release year
+	imp_fields = [
+	{"title_obj": {"tag": "h1", "element": {"class": "ipsType_pagetitle"}, "type": "first"}}, \
+	{"image_obj" : {"tag": "img", "element": {"class": "bbc_img"}, "type": "first"}}, \
+	{"torrent_obj": {"tag": "a", "element": {"title": "Download attachment"}, "type": "all"}}]
+	final_flag = True
+	for field in imp_fields:
+		selected_element = list(field.keys())[0]
+		print(f"Validating the element {selected_element} in DOM for the movie under the url: {datum['movie_link']}")
+		status = validate_flag_elements(soup=soup, tag=field[selected_element]["tag"], \
+										element=field[selected_element]["element"], \
+										type=field[selected_element]["type"])
+		print("Status of the Validation: {}".format(status))
+		final_flag = final_flag * status
+
+	# Above for loop return 1 or 0 , 1 - incase of validation has passed
+	if final_flag == 1:
+		datum["validation_flag"] = True
+	else:
+		datum["validation_flag"] = False
+
+	return final_flag, datum
+
 def parse_movie_data_downloaded(extract_movie_data, collection_name):
 	for movie_data in extract_movie_data:
-		print(movie_data)
 		soup = load_soup_of_html_file(html_file=movie_data["saved_path"])
-		title_obj = soup.find("h1", {"class": "ipsType_pagetitle"})
-		image_obj = soup.find("img", {"class": "bbc_img"})
-		torrent_obj = soup.findAll("a", {"title": "Download attachment"})
-		torrent_magnet_obj = soup.findAll("a", {"class": "bbc_url","rel": "nofollow external",  "title": "External link"})
-		magnet_torrent_obj = soup.findAll("a", {"class": "bbc_url", "title": "External link"})
-		movie_info = title_obj.text
-		# Movie information extraction with regex
-		movie_title = movie_info.split("[")[0]
-		movie_title = movie_title.split("(")[0].strip()
-		release_year = re.findall(r"\(([0-9]+)\)", movie_info)
-		pixel_quality = re.findall(r'[0-9]+p', movie_info)
-		video_quality = re.findall(r'(HD HEVC|HD AVC|HDTVRip|HDRip|HDTV|HD|BDRip|BD|BR|WEB|DVDRip|DVD|DIVx|Bluray|TVRip)+', movie_info)
-		audio_patterns = re.compile(r'\bKanada\b | \bTelugu\b | \bTamil Dubbed\b | \bHindi\b | \bEng\b | \bTamil\b | \bEnglish\b | \bMalyalam\b', flags=re.I | re.X)
-		audio_languages = audio_patterns.findall(movie_info)
-		size = re.findall(r'([.0-9]+)+(KB|MB|GB)', movie_info)
-		video_codec = re.findall(r'x[0-9]+', movie_info)
-		# Adding data to dictionary
-		movie_data["movie_title"] = movie_title
-		try:
-			movie_data["release_year"] = int(out_of_list(element=release_year))
-			movie_data["movie_size"] = size_correct(element=size)
-			movie_data["movie_poster_link"] = image_obj["src"]
-			movie_data["pixel_quality"] = out_of_list(element=pixel_quality)
-			movie_data["video_quality"] = out_of_list(element=video_quality)
-			movie_data["audio_languages"] = audio_languages
-			movie_data["video_codec"] = out_of_list(element=video_codec)
-			movie_data = index_mapper(datum=movie_data, key_name="video_codec_index", value=video_quality)
-			movie_data = index_mapper(datum=movie_data, key_name="pixel_quality_index", value=pixel_quality)
-			movie_code = "{}{}".format(str(movie_data["video_codec_index"]),str(movie_data["pixel_quality_index"]))
-			movie_data["movie_grade"] = movie_quality_indicator[movie_code]
-			movie_data["movie_score"] = quality_hierarchy[movie_data["movie_grade"]]
-			
-			# Get the torrent information
-			torrent_magnet_links = get_torrent_magnet_links(html_soup=soup)
-			if len(torrent_magnet_links) > 0:
-				movie_data["magnet_link_flag"] = True
-			else:
-				movie_data["magnet_link_flag"] = False
-			movie_data["torrent_info"] = get_torrent_info(torrent_objs=torrent_obj, \
-				mag_links=torrent_magnet_links)
-			insert_document_to_mongodb(datum=movie_data, collection_name=collection_name)
-		except ValueError:
-			continue
+		validation_flag, movie_data = validate_important_fields(soup=soup, datum=movie_data)
+		if validation_flag == 1:
+			title_obj = soup.find("h1", {"class": "ipsType_pagetitle"})
+			image_obj = soup.find("img", {"class": "bbc_img"})
+			torrent_obj = soup.findAll("a", {"title": "Download attachment"})
+			movie_info = title_obj.text
+			# Movie information extraction with regex
+			movie_title = movie_info.split("[")[0]
+			movie_title = movie_title.split("(")[0].strip()
+			release_year = re.findall(r"\(([0-9]+)\)", movie_info)
+			pixel_quality = re.findall(r'[0-9]+p', movie_info)
+			video_quality = re.findall(r'(HD HEVC|HD AVC|HDTVRip|HDRip|HDTV|HD|BDRip|BD|BR|WEB|DVDRip|DVD|DIVx|Bluray|TVRip)+', movie_info)
+			audio_patterns = re.compile(r'\bKanada\b | \bTelugu\b | \bTamil Dubbed\b | \bHindi\b | \bEng\b | \bTamil\b | \bEnglish\b | \bMalyalam\b', flags=re.I | re.X)
+			audio_languages = audio_patterns.findall(movie_info)
+			size = re.findall(r'([.0-9]+)+(KB|MB|GB)', movie_info)
+			video_codec = re.findall(r'x[0-9]+', movie_info)
+			# Adding data to dictionary
+			try:
+				movie_data["movie_title"] = movie_title
+				movie_data["release_year"] = int(out_of_list(element=release_year))
+				movie_data["movie_size"] = size_correct(element=size)
+				movie_data["movie_poster_link"] = image_obj["src"]
+				movie_data["pixel_quality"] = out_of_list(element=pixel_quality)
+				movie_data["video_quality"] = out_of_list(element=video_quality)
+				movie_data["audio_languages"] = audio_languages
+				movie_data["video_codec"] = out_of_list(element=video_codec)
+				movie_data = index_mapper_video_codec(datum=movie_data, value=movie_data["video_quality"])
+				movie_data = index_mapper_pixel_quality(datum=movie_data, value=movie_data["pixel_quality"])
+				movie_code = "{}{}".format(str(movie_data["video_codec_index"]),str(movie_data["pixel_quality_index"]))
+				movie_data["movie_grade"] = movie_quality_indicator[movie_code]
+				movie_data["movie_score"] = quality_hierarchy[movie_data["movie_grade"]]
+				
+				# Get the torrent information
+				torrent_magnet_links = get_torrent_magnet_links(html_soup=soup)
+				if len(torrent_magnet_links) > 0:
+					movie_data["magnet_link_flag"] = True
+				else:
+					movie_data["magnet_link_flag"] = False
+				movie_data["torrent_info"] = get_torrent_info(torrent_objs=torrent_obj, \
+					mag_links=torrent_magnet_links)
+				insert_document_to_mongodb(datum=movie_data, collection_name=collection_name)
+			except ValueError:
+				# This is to handle the errors that occur in live stream videos,
+				# if series video are skipped, if release year is given as an (2008-2020)
+				continue
 		get_count_of_collection(collection_name=collection_name)
 
 
