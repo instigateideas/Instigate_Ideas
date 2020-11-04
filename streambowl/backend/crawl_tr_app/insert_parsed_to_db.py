@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import pymongo
+import math
 import re
 
 database_name = "movie_database"
@@ -83,8 +84,36 @@ def get_currently_scraped_data_from_db(collection_name, epoch):
 
 	return movies
 
+def no_of_pages_based_on_limit(total_count, limit=5):
+	no_data = total_count["total_movie_count"]
+	pages =math.ceil(no_data/limit)
+	total_count["no_of_pages"] = pages
+	return total_count
+
+def get_prefered_movie_count(collection_name, prefered_quality, prefered_language):
+	db = myclient[database_name]
+	quality_preferred =max(prefered_quality)+1
+	aggr = [{'$unwind': '$audio_languages'}, \
+			{'$match': {"audio_languages": { '$regex': prefered_language, '$options': 'i' }}}, \
+			{'$match': {"movie_score": {'$lt': quality_preferred}}},\
+			{'$match': {"magnet_link_flag": True }}, \
+			{ "$group" : {
+			"_id" : {"movie_name": "$movie_title", "release_year": "$release_year"},
+			"download_links": { "$push" : "$$ROOT" }
+				}
+			}
+			]
+	count_of_movies = db[collection_name].aggregate(aggr)
+	#print(count_of_movies.count())
+	count_of_movies = {"total_movie_count": len(list(count_of_movies))}
+	no_of_movies = no_of_pages_based_on_limit(total_count=count_of_movies)
+
+	return no_of_movies
+
+
 def apply_language_and_quality_filter(collection_name, prefered_quality_list, prefered_language, page=1, limit=5):
 	db = myclient[database_name]
+	last_page = False
 	quality_preferred =max(prefered_quality_list)+1
 	if page == 1:
 		# First Page
@@ -119,13 +148,19 @@ def apply_language_and_quality_filter(collection_name, prefered_quality_list, pr
 				{'$limit': limit}
 				]
 
-	cnt = 0
+	movie_data = {"data": []}
 	docs = db[collection_name].aggregate(aggr)
+	cnt = 0
 	for doc in docs:
-		print(doc)
-		print("\n")
+		movie_data["data"].append(doc)
 		cnt+=1
-	print("Number of Movies in Preferred List: ", cnt)
+	if cnt < limit:
+		last_page = True
+	meta = {"returned_count": cnt, "last_page": last_page, "page_no": page, \
+	"preferred_language": prefered_language, "preferred_quality": prefered_quality_list}
+	movie_data["metadata"] = meta
+
+	return movie_data 
 
 if __name__ == "__main__":
 	get_count_of_collection(collection_name="latest_movie_collection")

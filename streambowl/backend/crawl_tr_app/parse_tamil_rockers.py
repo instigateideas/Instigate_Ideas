@@ -15,9 +15,6 @@ scrapper_host = "http://localhost:5000/get_html_content"
 save_location_html = "/home/arunachalam/Documents/output_streambowl"
 movie_download_location = "/home/arunachalam/Documents/output_streambowl/movies"
 
-preferred_quality = [1, 2]
-prefered_language = "Tamil"
-
 video_codec_index = {"Bluray":1, "HD HEVC": 1, "HD AVC": 1, "HD": 1, "BD": 1, "BR": 1, \
 "BDRip": 2, "HDRip": 2, "BRrip": 2, "HDTV": 2, "HDTVRip": 2, "DIVx": 3, "DVD":3, "DVDRip": 3, \
 "TVRip": 3, "WEB": 3, "": 0}
@@ -280,6 +277,4 @@ if __name__ == "__main__":
 	extract_movie_torrent_information(movie_data=scrapped_movies_info, collection_name="tamil_rockers_torrent_informations")
 	movies_torrent_info = get_currently_scraped_data_from_db(collection_name="tamil_rockers_torrent_informations", epoch=current_epoch)
 	parse_movie_data_downloaded(extract_movie_data=movies_torrent_info, collection_name="movies_data_collection")
-	# apply_language_and_quality_filter(collection_name="movies_data_collection", \
-	# 							prefered_quality_list=preferred_quality, \
-	# 							prefered_language=prefered_language, page=3)
+
