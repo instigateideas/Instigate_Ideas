@@ -28,6 +28,7 @@ body {
     display: flex;
     position: relative;
     text-align: center;
+    opacity:  0.8;
 }
 
 #banner-image {
@@ -39,8 +40,15 @@ body {
     position: absolute;
     top: 15%;
     left: 18%;
-    color:maroon;
+    color:black;
     font-size: 4em;
+}
+
+.banner-desc {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    font-size: 1.4em;
 }
 
 
@@ -84,14 +92,6 @@ body {
     height: 100px;
 }
 
-#skill-text {
-    color: black;
-    margin-top: 35px;
-    margin-left:3px;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
 .skill-heading {
     display: flex;
     margin-top: 30px;
@@ -104,6 +104,14 @@ body {
     text-align: center;
     font-weight: bold;
     font-size: 2em;
+}
+
+#skill-text {
+    color: black;
+    margin-top: 35px;
+    margin-left:3px;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 hr {
@@ -188,7 +196,8 @@ hr {
 /* Post Gallery */
 .posts-gallery {
     max-width: 1100px;
-    margin: auto;  
+    margin: auto;
+    display: flex;  
 }
 
 
@@ -206,12 +215,20 @@ hr {
 /* Content */
 .content {
     background-color: white;
-    padding: 10px;
+    padding: 15px;
 }
 
 #post-image {
     width: 170px;
     height: 220px;
+}
+
+#post-heading {
+    word-wrap:break-word;
+}
+
+#post-desc {
+    word-wrap:break-word;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
@@ -219,21 +236,26 @@ hr {
 .column {
     width: 50%;
 }
+
 #post-image {
     width: 170px;
     height: 220px;
+    flex-grow: 1;
 }
-}
+
 
 /* Responsive layout - makes the one columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
 .column {
     width: 100%;
     }
+
 #post-image {
     width: 170px;
     height: 250px;
 }
+
+
 }
 
 * {
