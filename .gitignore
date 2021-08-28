@@ -1,1 +1,4 @@
 .idea
+./jenkins_docker/db_data/
+./jenkins_docker/jenkins_home/workspace/
+
