@@ -1,3 +1,7 @@
 .idea
+bin/
+lib/
+pyvenv.cfg
+__pycache__/
 jenkins_docker/jenkins_home
 jenkins_docker/db_data/

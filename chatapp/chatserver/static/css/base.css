@@ -1,0 +1,24 @@
+
+.main {
+	background-color: #283747;
+	color: white;
+	min-height:100vh;
+	height:100%;
+}
+
+.footer {
+	min-height:100vh;
+	height:100%;
+}
+
+.body {
+	font-family: segoe UI;
+	font-weight: 380;
+}
+
+:root {
+	--main-background-color: #283747;
+	--light-backgroud-color: #AEB6BF;
+	--secondary-text-color: #0080ff;
+	--light-primary-text-color: #808080;	
+}
