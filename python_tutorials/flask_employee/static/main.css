@@ -1,0 +1,108 @@
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: blue;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    width: 50px;
+    height: 100%;
+    background: black;
+}
+
+table {
+    border: 2px solid red;
+    margin: 20px 80px;
+    text-align: center;
+}
+
+.content-container {
+    width: 100%;
+    height: 100%;
+}
+
+.heading {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    background-color: hotpink;
+    text-align: center;
+    justify-content: center;
+}
+
+th {
+    padding: 7px;
+    border: 1px solid white;
+}
+
+td{
+    padding: 10px;
+    border: 1px solid white;
+    color:  #39ff14;
+}
+
+.btn-edit {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: yellow;
+    text-decoration: none;
+}
+
+.btn-delete {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ff0e0e;
+    text-decoration: none;
+}
+
+.add-emp {
+    padding: 10px 80px;
+}
+
+/* Add new Employee */
+.add-emp-details {
+    width: 40%
+
+}
+
+.form-control-cls {
+    padding: 8px;
+}
+
+.form-control-cls select {
+    margin-top: 8px;
+    padding: 4px;
+    margin-left: 122px;
+}
+
+.form-control-cls input {
+    float: right;
+    width: 300px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.form-control-submit input {
+    margin: 8px;
+    height: 30px;
+    width: 50px;
+}
+
+.form-control-submit input:hover {
+    background-color: green;
+}
+
+.form-details {
+    width: auto;
+    padding: 40px 0px;
+}

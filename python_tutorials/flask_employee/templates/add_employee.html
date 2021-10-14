@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Employee Management App
+{% endblock title %}
+
+{% block content %}
+<div class="content-container">
+    <div class="heading">
+      <h1>Add New Employee</h1>
+    </div>
+    <div class="form-details">
+      <div class="add-emp-details">
+        <form action="{{url_for('add_employee')}}" method="post">
+          <div class="form-control-cls">
+            <label for="f_name">First Name</label>
+            <input type="text" name="f_name" id="f_name" placeholder="Enter your Name" required>
+          </div>
+          <div class="form-control-cls">
+            <label for="l_name">Last Name</label>
+            <input type="text" name="l_name" id="l_name" placeholder="Enter the Last Name" required>
+          </div>
+          <div class="form-control-cls">
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-control-cls">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob"
+                   value="01-02-2021" data-date-format="DD-MM-YYYY"
+                   min="01-01-1900" max="31-12-2100">
+          </div>
+          <div class="form-control-cls">
+            <label for="doj">Date of Joining</label>
+            <input type="date" id="doj" name="doj"
+                   value="01-02-2021" pattern="\d{1,2}/\d{1,2}/\d{4}"
+                   min="01-01-1900" max="31-12-2100">
+          </div>
+          <div class="form-control-cls">
+            <label for="email">Email ID</label>
+            <input type="email" name="email" id="email" placeholder="Enter your Email">
+          </div>
+            <div class="form-control-cls">
+            <label for="nationality">Nationality</label>
+            <input type="text" name="nation" id="nationality" placeholder="Enter your Nationality">
+          </div>
+          <div class="form-control-submit">
+            <input type="submit" name="submit" id="submit-btn" placeholder="Submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock content %}

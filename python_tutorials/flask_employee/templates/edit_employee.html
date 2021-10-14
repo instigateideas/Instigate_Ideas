@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Employee Management App
+{% endblock title %}
+
+{% block content %}
+<div class="content-container">
+    <div class="heading">
+      <h1>Edit Employee Records</h1>
+    </div>
+    <div class="form-details">
+      <div class="add-emp-details">
+        <form action="" method="post">
+          <div class="form-control-cls">
+            <label for="f_name">First Name</label>
+            <input type="text" name="f_name" id="f_name" placeholder="Enter your Name" value={{data.f_name}}>
+          </div>
+          <div class="form-control-cls">
+            <label for="l_name">Last Name</label>
+            <input type="text" name="l_name" id="l_name" placeholder="Enter the Last Name" value={{data.l_name}}>
+          </div>
+          <div class="form-control-cls">
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-control-cls">
+            <label for="dob">Date of Birth</label>
+            <input type="text" id="dob" name="dob"
+                   value="{{data.dob}}">
+          </div>
+          <div class="form-control-cls">
+            <label for="doj">Date of Joining</label>
+            <input type="text" id="doj" name="doj"
+                   value="{{data.doj}}">
+          </div>
+          <div class="form-control-cls">
+            <label for="email">Email ID</label>
+            <input type="email" name="email" id="email" placeholder="Enter your Email" value="{{data.email}}">
+          </div>
+            <div class="form-control-cls">
+            <label for="nationality">Nationality</label>
+            <input type="text" name="nation" id="nationality" placeholder="Enter your Nationality" value="{{data.nation}}">
+          </div>
+          <div class="form-control-submit">
+            <input type="submit" name="submit" id="submit-btn" placeholder="Update Record" />
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock content %}
