@@ -1,13 +1,18 @@
 class Config(object):
 
-    start_date = "01-10-2019"
-    end_date = "31-10-2019"
+    start_date = "01-05-2020"
+    end_date = "31-05-2020"
 
     # Keywords to search
     keywords = ["car", "kia seltos", "kia carnival"]
 
-    # Extract base path
-    base_output_path = "/home/arunachalam/Documents/sense2vec_exp/ouputs"
+    # Output paths base path to save all the file downloaded (Local)
+    output_base_path = "/home/arunachalam/Documents/sense2vec_exp/output_api"
+
+    # Standardized paths
+    subreddit_path = "{}/subreddit_extracted".format(output_base_path)
+    comments_path = "{}/subreddit_comments".format(output_base_path)
+    submission_path = "{}/subreddit_submission".format(output_base_path)
 
     # Reddit Credentials - Reddit API
     refresh_token_time = 3200
@@ -23,12 +28,9 @@ class Config(object):
     # Extract what data submission or comments
     source_data = "comments"  # submission or comments
 
-    # Output Comment Extraction Path (Local)
-    output_path = "/home/arunachalam/Documents/sense2vec_exp/reddits_comments_data_link"
-
     # API Parameters
     size = 500
-    epochs_delta = 300
+    epochs_delta = 86400*16
 
     # Host address (VPN or ECS) -> return should be JSON
     # host_address = "http://localhost:5555/get_html_content"

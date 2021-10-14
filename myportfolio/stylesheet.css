@@ -1,0 +1,264 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+}
+
+.main-container {
+    width: 100%;
+}
+
+.flex-container {
+    width: 100%;
+    background-color: black;
+    display: flex;
+    height: 35px;
+}
+
+.menu{
+    color: white;
+    width: 100px;
+    text-align: center;
+    padding-top: 6.5px;
+    padding-left: 20px;
+    font-size: 1.1em;
+
+}
+
+.image-container {
+    display: flex;
+    position: relative;
+    text-align: center;
+    opacity:  0.8;
+}
+
+#banner-image {
+    width: 100%;
+    opacity: 0.95;
+}
+
+.banner-title {
+    position: absolute;
+    top: 15%;
+    left: 18%;
+    color:black;
+    font-size: 4em;
+}
+
+.banner-desc {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    font-size: 1.4em;
+}
+
+
+/* My Skills - Style */
+.skill-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color:white;
+    color: black;
+    margin-top: 15px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.skill-1 {
+    display: flex;
+    float: left;
+    flex: 1 0 25%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+/* Responsive layout - when the screen is less than 900px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 900px) {
+    .skill-1 {
+      width: 50%;
+    }
+  }
+
+/* Responsive layout - when the screen is less than 600px wide, make the one columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .skill-1 {
+      width: 100%;
+    }
+  }
+
+#image-skill {
+    width: 100px;
+    height: 100px;
+}
+
+.skill-heading {
+    display: flex;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.skill-title {
+    width: 100%;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+#skill-text {
+    color: black;
+    margin-top: 35px;
+    margin-left:3px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+hr {
+    width: 90%;
+}
+
+.portfolio-heading {
+    display: flex;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#portfolio-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    color: black;
+    font-weight: bold;
+}
+
+.portfolio-container {
+    display: flex;
+    width:100%;
+    margin-bottom: 50px;
+    flex-direction: column;
+}
+
+.project-container {
+    display: flex;
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
+.project-1 {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.project-image {
+    position: relative;
+    margin-top: 20px;
+}
+
+#project-img {
+    width: 180px;
+    height: 50px;
+}
+
+.project-detail {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.project-name {
+    font-size: 2em;
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.project-timeline {
+    font-size: 1.25em;
+    margin-bottom: 20px;
+}
+
+.recent-posts {
+    display: flex;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#recent-post-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    color: black;
+    font-weight: bold;
+}
+
+/* Post Gallery */
+.posts-gallery {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;  
+}
+
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 33.33%;
+}
+
+/* Content */
+.content {
+    background-color: white;
+    padding: 15px;
+}
+
+#post-image {
+    width: 170px;
+    height: 220px;
+}
+
+#post-heading {
+    word-wrap:break-word;
+}
+
+#post-desc {
+    word-wrap:break-word;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 900px) {
+.column {
+    width: 50%;
+}
+
+#post-image {
+    width: 170px;
+    height: 220px;
+    flex-grow: 1;
+}
+
+
+/* Responsive layout - makes the one columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+.column {
+    width: 100%;
+    }
+
+#post-image {
+    width: 170px;
+    height: 250px;
+}
+
+
+}
+
+* {
+    box-sizing: border-box;
+  }
+

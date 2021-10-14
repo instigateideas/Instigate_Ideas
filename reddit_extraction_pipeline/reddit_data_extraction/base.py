@@ -21,6 +21,10 @@ class  Base(object):
             
         return data
 
+    def create_save_path(self, save_path):
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
     def save_as_json(self, data, path, file_name):
         with open(f"{path}/{file_name}", "w") as outfile:
             outfile.write(json.dumps(data))

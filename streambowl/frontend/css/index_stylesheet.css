@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body {
+	background: #212125;
+}
+
+nav {
+	display: flex;
+	padding: 20px 30px;
+	align-items: center;
+	justify-content: flex-end;
+	min-height: 8vh;
+	font-family: 'Pacifico', cursive;
+}
+
+.logo {
+	color: rgb(226, 226, 226);
+	margin-right: auto;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	font-size: 25px;
+
+}
+.nav-links {
+	display: flex;
+	text-align: center;
+	font-family: 'Poppins', sans-serif;
+	justify-content: space-around;
+	width: 35%;	
+}
+
+.nav-links li {
+	list-style: none;
+}
+
+.nav-links a {
+	color: rgb(226, 226, 226);
+	text-decoration: none;
+	letter-spacing: 2px;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.burger div {
+	width: 20px;
+	height: 3px;
+	background-color: rgb(226, 226, 226);
+	margin: 5px;
+	margin-left: 20px;
+
+}
+
+.container {
+	padding: 20px;
+}
+
+div.box {
+	padding: 0px;
+}
+
+
+.movie-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+
+.box {
+	position: relative;
+	width: 250px;
+	perspective: 1000px;
+	transition: all 0.5s ease-in-out 0.5s;
+}
+
+.box .box-img {
+	transform: rotateY(0);
+	transition: all 0.5s ease-in-out 0s;
+}
+
+.box:hover .box-img {
+	transform: rotateY(-90deg);
+}
+
+.box .content {
+	color: white;
+	background: rgba(0,0,0,0.8);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	padding: 90px 20px;
+	box-sizing: border-box;
+	text-align: center;
+	border-radius: 10px;
+	transform: rotateY(90deg);
+}
+
+.box .content p {
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	padding: 20px 0;
+	margin: 0 25px;
+}
+
+.box:hover{
+	transform: scale(1.1);
+	box-shadow: 1px 2px 10px 5px solid #000;
+
+}
+
+
+.box .box-img img {
+	width: 250px;
+	height: 380px;
+	border: 2px solid #000;
+	border-radius: 10px;
+}
+
+.box:hover .content {
+	transform: rotateY(0);
+	transition: all 0.5s ease-in-out 0s;
+}
+
+.box .content h3 {
+	padding: 10px 0px;
+}
+
+.box .button {
+	background: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	padding: 260px 50px;
+	box-sizing: border-box;
+	text-align: center;
+	align-items: center;
+	transform: rotateY(90deg);
+	transition: all 0s ease-in-out 0s;
+}
+
+.box:hover .button {
+	transform: rotateY(0);
+}
+
+.box .button li{
+	list-style: none;
+	padding: 15px 0;
+}
+
+.box .button li a{
+	color: white;
+	text-decoration: none;
+	border: 1px solid transparent;
+	padding: 5px 10px;
+	background: #27ae60;
+	border-radius: 50px;
+}
+
+.box .button li a:hover{
+	background: #1089
+}

@@ -1,0 +1,9 @@
+1. Create the Reddit account by Sign-Up
+2. Create an App for the API access - https://www.reddit.com/prefs/apps/
+3. Click on create app button - enter any name and under redirect uri type: http://www.example.com/unused/redirect/uri
+4. Now click on create app to create app.
+5. Now we will get the app created with access key and secret key.
+(Note: Don't share the access key and secr)
+
+
+
