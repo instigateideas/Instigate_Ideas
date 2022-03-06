@@ -1,0 +1,113 @@
+{% extends 'back/master.html' %}
+
+{% load static %}
+
+{% block mainblock %}
+<div class="card">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- Form Element sizes -->
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">My Settings</h3>
+      </div>
+        <form action="{%url 'mysettings' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+          {% csrf_token %}
+          <!-- Site Name -->
+          <div class="card-body">
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="sitename">Site Name</label>
+                  <input type="text" class="form-control" id="sitename" name="sitename" value="{{siteinfo.name}}" placeholder="Enter the Site Name">
+                </div>
+            </div>
+            <!-- About -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="about">About</label>
+                  <textarea id="about" name="about" class="form-control" rows="3" placeholder="Enter About Text">{{siteinfo.about}}</textarea>
+                </div>
+            </div>
+            <!-- About Text-->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="abouttxt">About Page Text</label>
+                  <textarea id="abouttxt" name="abouttxt" class="form-control" rows="5" placeholder="Enter the About Page Text">{{siteinfo.abouttxt}}</textarea>
+                </div>
+            </div>
+            <!-- Facebook -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="fb">Facebook Page Link</label>
+                  <input type="text" class="form-control" id="fb" name="fb" value="{{siteinfo.fb}}" placeholder="Enter the Facebook Page Link">
+                </div>
+            </div>
+            <!-- Youtube -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="yt">Youtube Channel Link</label>
+                  <input type="text" class="form-control" id="yt" name="yt" value="{{siteinfo.yt}}" placeholder="Enter the Youtube Channel Link">
+                </div>
+            </div>
+           <!-- Twitter -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="tw">Twitter Handle</label>
+                  <input type="text" class="form-control" id="tw" name="tw" value="{{siteinfo.tw}}" placeholder="Enter the Twitter Handle">
+                </div>
+            </div>
+            <!-- Pinterest -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="pt">Pinterest Link</label>
+                  <input type="text" class="form-control" id="pt" name="pt" value="{{siteinfo.pt}}" placeholder="Enter the Pinterest Link">
+                </div>
+            </div>
+            <!-- Vimeo -->
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="vm">Vimeo Page Link</label>
+                  <input type="text" class="form-control" id="vm" name="vm" value="{{siteinfo.vm}}"  placeholder="Enter the Vimeo Page Link">
+                </div>
+            </div>
+          <!-- Upload Logo-1 File -->
+          <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Upload the Header Logo File</label>
+                    <input type="file" class="form-control" id="myfile" name="myfile" placeholder="No file selected">
+                </div>
+                <div class="col-sm-6">
+                    <hr>
+                    <center>
+                    <img style="display: inline-block; width:200px; height:50px;" src="{{siteinfo.picurl}}">
+                    </center>
+                </div>
+            </div>
+          </div>
+          <!-- Upload Logo-2 File -->
+          <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Upload the Footer Logo File</label>
+                    <input type="file" class="form-control" id="myfile2" name="myfile2" placeholder="No file selected">
+                </div>
+                <div class="col-sm-6">
+                    <hr>
+                    <center>
+                    <img style="display: inline-block; width:200px; height:50px;"src="{{siteinfo.picurl2}}">
+                    </center>
+                </div>
+            </div>
+          </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

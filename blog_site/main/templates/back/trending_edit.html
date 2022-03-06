@@ -1,0 +1,45 @@
+{% extends 'back/master.html' %}
+
+{% load static %}
+
+{% block maindesc %}
+<br>
+<p style="color:grey;">
+  You can add, edit and delete your data
+</p>
+{% endblock %}
+
+
+{% block mainblock %}
+<!-- Add Trending -->
+<div class="card">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- Form Element sizes -->
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Edit Trending News</h3>
+      </div>
+        <form action="{%url 'edit_trending' pk=pk %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" id="msg" name="msg" value="{{edit_trend.txt}}" placeholder="Enter the Trending News">
+                </div>
+                <div class="col-md-6">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<!-- End Edit Trending -->
+{% endblock %}

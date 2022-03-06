@@ -1,0 +1,56 @@
+{% extends 'back/master.html' %}
+
+{% load static %}
+
+{% block maindesc %}
+<br>
+<p style="color:grey;">
+  You can add various category to news data
+</p>
+{% endblock %}
+
+{% block mainblock %}
+<div class="card">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- Form Element sizes -->
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Add Category</h3>
+      </div>
+        <form action="{%url 'category_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+                <div class="col-md-12">
+                  <label for="catname">Category Name</label>
+                  <input type="text" class="form-control" id="catname" name="catname" placeholder="Enter a Category Name">
+                </div>
+            </div>
+            </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footerblock %}
+<!-- DataTables  & Plugins -->
+<script src="{% static 'back/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'back/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'back/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+{% endblock %}

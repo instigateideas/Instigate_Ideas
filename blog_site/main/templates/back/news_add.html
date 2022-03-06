@@ -1,0 +1,109 @@
+{% extends 'back/master.html' %}
+
+{% load static %}
+
+{% block headblock %}
+<script src="{%static 'ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+
+{% block maindesc %}
+<br>
+<p style="color:grey;">
+  You can add, edit and delete your data
+</p>
+{% endblock %}
+
+{% block mainblock %}
+<div class="card">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- Form Element sizes -->
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Add News</h3>
+      </div>
+        <form action="{%url 'news_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="newstitle">News Title</label>
+                  <input type="text" class="form-control" id="newstitle" name="newstitle" placeholder="Enter a News Title">
+                </div>
+                <div class="col-md-6">
+                  <label>Select a Category</label>
+                  <select id="newscat" name="newscat" class="form-control select2bs4" style="width: 100%;">
+                    <option selected="selected">Choose a Category..</option>
+                    {% for i in cat %}
+                    <option value="{{i.pk}}">{{i.catname}} | {{i.subcat_name}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label>Short Text</label>
+                    <textarea id="newstxtshort" name="newstxtshort" class="form-control" rows="2" placeholder="Enter Shot Text"></textarea>
+                  </div>
+                </div>
+              </div>
+            <div class="row">
+                <div class="col-sm-12">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <label>News Text</label>
+                        <textarea id="newstxt" name="newstxt" class="form-control" rows="5" placeholder="Enter the News Text"></textarea>
+                  </div>
+                  <script>
+                    CKEDITOR.replace( 'newstxt' );
+                  </script>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control" id="tags" name="tags" placeholder="Enter the relevant tags seperated by comma">
+                  </div>
+                </div>
+            </div>
+            <!-- Upload File -->
+            <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Upload the Image File</label>
+                    <input type="file" class="form-control" id="myfile" name="myfile" placeholder="No file selected">
+                  </div>
+                </div>
+            </div>
+            </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footerblock %}
+<!-- DataTables  & Plugins -->
+<script src="{% static 'back/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'back/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'back/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'back/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'back/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+{% endblock %}

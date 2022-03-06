@@ -1,0 +1,382 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{sitename.name}}</title>
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'front/images/icons/favicon.png'%}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/vendor/bootstrap/css/bootstrap.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/fonts/fontawesome-5.0.8/css/fontawesome-all.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/fonts/iconic/css/material-design-iconic-font.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/css/util.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'front/css/main.css'%}">
+<!--===============================================================================================-->
+</head>
+<body class="animsition">
+
+	<!-- Header -->
+	<header>
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<div class="topbar">
+				<div class="content-topbar h-100 p-rl-30">
+					<div class="align-self-stretch size-w-0 pos-relative m-r-30">
+						<div class="f2-s-1 flex-wr-s-c s-full ab-t-l p-b-2">
+							<span class="text-uppercase cl0 p-r-8">
+								Trending Now:
+							</span>
+
+							<span class="dis-inline-block cl16 slide100-txt pos-relative size-w-0" data-in="fadeInDown" data-out="fadeOutDown">
+								{% for trend in trending %}
+								<span class="dis-inline-block slide100-txt-item animated visible-false">
+									{{trend.txt}}
+								</span>
+								{% endfor %}
+							</span>
+						</div>
+					</div>
+
+
+					<div class="flex-wr-e-c">
+						<div class="left-topbar">
+
+
+							<a href="/about" class="left-topbar-item">
+								About
+							</a>
+
+							<a href="/contact" class="left-topbar-item">
+								Contact
+							</a>
+
+							<a href="/register" class="left-topbar-item">
+								Sign up
+							</a>
+
+							<a href="/login" class="left-topbar-item">
+								Log in
+							</a>
+
+							<a href="#" class="left-topbar-item"></a>
+						</div>
+
+						<div class="right-topbar p-l-18">
+							<a href="{{siteinfo.fb}}">
+								<span class="fab fa-facebook-f"></span>
+							</a>
+
+							<a href="{{siteinfo.tw}}">
+								<span class="fab fa-twitter"></span>
+							</a>
+
+							<a href="{{siteinfo.pt}}">
+								<span class="fab fa-pinterest-p"></span>
+							</a>
+
+							<a href="{{siteinfo.vm}}">
+								<span class="fab fa-vimeo-v"></span>
+							</a>
+
+							<a href="{{siteinfo.yt}}">
+								<span class="fab fa-youtube"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!--  -->
+			<div class="wrap-logo no-banner container">
+				<!-- Logo desktop -->
+				<div class="logo">
+					<a href="/"><img src="{{siteinfo.picurl}}" alt="LOGO"></a>
+				</div>
+			</div>
+
+			<!--  -->
+			<div class="wrap-main-nav">
+				<div class="main-nav">
+					<!-- Menu desktop -->
+					<nav class="menu-desktop">
+						<a class="logo-stick" href="index.html">
+							<img src="{{siteinfo.picurl}}" alt="LOGO">
+						</a>
+
+						<ul class="main-menu justify-content-center">
+							<li class="main-menu-active">
+								<a href="/">Home</a>
+							</li>
+
+							<!-- Main Menu Categories -->
+							{% for category in cat %}
+							{% if category.count != 0 %}
+							<li class="mega-menu-item">
+								<a href="category-01.html">{{category.cat_name}}</a>
+
+								<div class="sub-mega-menu">
+									<div class="nav flex-column nav-pills" role="tablist">
+										<a class="nav-link active" data-toggle="pill" href="#news-0" role="tab">All</a>
+										{% for subcategory in subcat %}
+										{% if subcategory.catid == category.pk %}
+										<a class="nav-link" data-toggle="pill" href="#{{subcategory.pk}}" role="tab">{{subcategory.subcat_name}}</a>
+										{% endif %}
+										{% endfor %}
+									</div>
+
+									<!-- All Categories -->
+									<div class="tab-content">
+										<div class="tab-pane show active" id="news-0" role="tabpanel">
+											<div class="row">
+												{% for new in news %}
+												{% if new.ocatid == category.pk %}
+												<div class="col-3">
+													<!-- Item post -->
+													<div>
+														<a href="{%url 'news_detail' word=new.news_title %}" class="wrap-pic-w hov1 trans-03">
+															<img src="{{new.picurl}}" alt="IMG">
+														</a>
+
+														<div class="p-t-10">
+															<h5 class="p-b-5">
+																<a href="{%url 'news_detail' word=new.news_title %}" class="f1-s-5 cl3 hov-cl10 trans-03">
+																	{{new.news_title}}
+																</a>
+															</h5>
+
+															<span class="cl8">
+																<a href="{%url 'news_detail' word=new.news_title %}" class="f1-s-6 cl8 hov-cl10 trans-03">
+																	{{new.cat_name}}
+																</a>
+
+																<span class="f1-s-3 m-rl-3">
+																	-
+																</span>
+
+																<span class="f1-s-3">
+																	{{new.date}}
+																</span>
+															</span>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+
+										<!-- Sub Categories -->
+										{% for subs in subcat %}
+										<div class="tab-pane" id="{{subs.pk}}" role="tabpanel">
+											<div class="row">
+												{% for ns in news %}
+												{% if ns.catid == subs.pk %}
+												<div class="col-3">
+													<!-- Item post -->
+													<div>
+														<a href="{%url 'news_detail' word=ns.news_title %}" class="wrap-pic-w hov1 trans-03">
+															<img src="{{ns.picurl}}" alt="IMG">
+														</a>
+
+														<div class="p-t-10">
+															<h5 class="p-b-5">
+																<a href="{%url 'news_detail' word=ns.news_title %}" class="f1-s-5 cl3 hov-cl10 trans-03">
+																	{{ns.news_title}}
+																</a>
+															</h5>
+
+															<span class="cl8">
+																<a href="{%url 'news_detail' word=ns.news_title %}" class="f1-s-6 cl8 hov-cl10 trans-03">
+																	{{ns.cat_name}}
+																</a>
+
+																<span class="f1-s-3 m-rl-3">
+																	-
+																</span>
+
+																<span class="f1-s-3">
+																	{{ns.date}}
+																</span>
+															</span>
+														</div>
+													</div>
+												</div>
+												{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+
+    {% block mainblock %}
+    {% endblock %}
+
+	<!-- Footer -->
+	<footer>
+		<div class="bg2 p-t-40 p-b-25">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4 p-b-20">
+						<div class="size-h-3 flex-s-c">
+							<a href="index.html">
+								<img class="max-s-full" src="{{siteinfo.picurl2}}" alt="LOGO">
+							</a>
+						</div>
+
+						<div>
+							<p class="f1-s-1 cl11 p-b-16">
+								{{sitename.about}}
+							</p>
+
+							<p class="f1-s-1 cl11 p-b-16">
+								Any questions? Call us on (+1) 96 716 6879
+							</p>
+
+							<div class="p-t-15">
+								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+									<span class="fab fa-facebook-f"></span>
+								</a>
+
+								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+									<span class="fab fa-twitter"></span>
+								</a>
+
+								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+									<span class="fab fa-pinterest-p"></span>
+								</a>
+
+								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+									<span class="fab fa-vimeo-v"></span>
+								</a>
+
+								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+									<span class="fab fa-youtube"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-lg-4 p-b-20">
+						<div class="size-h-3 flex-s-c">
+							<h5 class="f1-m-7 cl0">
+								Popular Posts
+							</h5>
+						</div>
+
+						<ul>
+							{% for pop in popnews2 %}
+							<li class="flex-wr-sb-s p-b-20">
+								<a href="{%url 'news_detail' word=pop.news_title%}" class="size-w-4 wrap-pic-w hov1 trans-03">
+									<img src="{{pop.picurl}}" alt="IMG">
+								</a>
+
+								<div class="size-w-5">
+									<h6 class="p-b-5">
+										<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03">
+											{{pop.news_title}}
+										</a>
+									</h6>
+
+									<span class="f1-s-3 cl6">
+										{{pop.date}}
+									</span>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="col-sm-6 col-lg-4 p-b-20">
+						<div class="size-h-3 flex-s-c">
+							<h5 class="f1-m-7 cl0">
+								Category
+							</h5>
+						</div>
+
+						<ul class="m-t--12">
+							{% for i in cat %}
+							{% if i.count != 0 %}
+								<li class="how-bor1 p-rl-5 p-tb-10">
+									<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
+										{{ i.cat_name }} ({{i.count}})
+									</a>
+							</li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="bg11">
+			<div class="container size-h-4 flex-c-c p-tb-15">
+				<span class="f1-s-1 cl0 txt-center">
+					Copyright © 2018
+
+					<a href="#" class="f1-s-1 cl10 hov-link1"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</span>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<span class="fas fa-angle-up"></span>
+		</span>
+	</div>
+
+	<!-- Modal Video 01-->
+	<div class="modal fade" id="modal-video-01" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document" data-dismiss="modal">
+			<div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
+
+			<div class="wrap-video-mo-01">
+				<div class="video-mo-01">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!--===============================================================================================-->
+	<script src="{% static 'front/vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'front/vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'front/vendor/bootstrap/js/popper.js'%}"></script>
+	<script src="{% static 'front/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'front/js/main.js'%}"></script>
+
+</body>
+</html>
