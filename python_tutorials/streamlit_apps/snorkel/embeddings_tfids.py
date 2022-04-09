@@ -1,24 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 import pandas as pd
+from utils import remove_stopwords
 
-
-def remove_stopwords(documents):
-	'''
-		fn: Removes the Stop words from all the documents.sidebar
-		
-		input: list of documents
-		return: list of documnents after removing stopwords
-	'''
-	new_docs = []
-	for doc in documents:
-		word_list = word_tokenize(doc)
-		filtered_words = [word for word in word_list if word not in stopwords.words('english')]
-		document = " ".join(filtered_words)
-		new_docs.append(document)
-
-	return new_docs
 
 def get_sklearn_tfidf_vectors(document_list):
 	document_list = remove_stopwords(documents=document_list)
