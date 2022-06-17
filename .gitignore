@@ -6,3 +6,4 @@ __pycache__/
 jenkins_docker/jenkins_home
 jenkins_docker/db_data/
 blog_site/blog_env
+python_tutorials/slide_app/slide_env
